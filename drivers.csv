@@ -1,0 +1,5 @@
+id,name,license_number,vehicle_type,is_available
+1,string,463738D,Sedan,True
+2,Adela,0345u,Van,True
+3,Adela,1547AB,Van,True
+4,Ema,47382t,Sedan,True
