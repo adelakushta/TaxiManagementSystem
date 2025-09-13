@@ -19,28 +19,30 @@ A FastAPI-based backend service for managing taxi drivers with full CRUD functio
 ```bash
 taxi_driver_module/
 ├── app/
-│   ├── main.py                    # FastAPI application entry point
-│   ├── Controllers/
+│   ├── persistance/
+│   │   ├── db/
+│   │   │   ├── __init__.py
+│   │   │   └── driver_data.py           # CSV data operations with Pandas
+│   │   └── models/
+│   │       ├── __init__.py
+│   │       └── driver_model.py          # Data entity models
+│   ├── service/
 │   │   ├── __init__.py
-│   │   └── driver_controller.py   # API route handlers
-│   Services/
+│   │   └── driver_service.py            # Business logic layer
+│   ├── web/
 │   │   ├── __init__.py
-│   │   └── driver_service.py     # Business logic layer
-│   ├── Models/
-│   │   ├── __init__.py
-│   │   └── driver_model.py        # Data entity models
-│   ├── Schemas/
-│   │   ├── __init__.py
-│   │   └── driver_schema.py     # Pydantic request/response schemas
-│   ├── Data/
-│   │   ├── __init__.py
-│   │   └── driver_data.py        # CSV data operations with Pandas
-│   └── __init__.py
-├── venv/                 # Virtual environment (not included in repo)
-├── drivers.csv          # Sample data file
+│   │   ├── main.py
+│   │   ├── controllers/
+│   │   │   ├── __init__.py
+│   │   │   └── driver_controller.py     # API route handlers
+│   │   └── models/
+│   │       ├── __init__.py
+│   │       └── driver_schema.py         # Pydantic request/response schemas
+├── venv/                                # Virtual environment (not included in repo)
+├── drivers.csv                          # CSV data storage file
 ├── requirements.txt
 ├── .gitignore
-└── README.mdn
+└── README.md
 ```
 ---
 
@@ -50,8 +52,8 @@ taxi_driver_module/
   - `id`: integer (auto-generated, unique identifier)
   - `name`: string
   - `license_number`: string
-  - `vehicle_type`: enum (optional, values of your choice)
-  - `is_available`: boolean
+  - `vehicle_type`: enum (optional)- Sedan, SUV, Van, Coupe, Convertible, Truck, Minivan
+  - `is_available`: boolean (default:true)
 
 - **CRUD API Endpoints**
 
@@ -68,6 +70,11 @@ taxi_driver_module/
   - By availability (`is_available`)
   - By vehicle type (`vehicle_type`)
   - By name (case-insensitive)
+
+- **Data Validation**
+    - Unique license number enforcement
+    - Enum validation for vehicle types
+    - Type safety with Pydantic models
 
 ---
 
@@ -118,16 +125,33 @@ taxi_driver_module/
     ```bash
     # Available drivers only
     curl -X GET "http://127.0.0.1:8000/drivers?is_available=true"
-
+    ```
+    ```bash
     # By vehicle type
     curl -X GET "http://127.0.0.1:8000/drivers?vehicle_type=sedan"
-
+    ```
+    ```bash
     # By name (partial match)
     curl -X GET "http://127.0.0.1:8000/drivers?name=John"
-
+    ```
+    ```bash
     # Multiple filters
     curl -X GET "http://127.0.0.1:8000/drivers?is_available=true&vehicle_type=sedan"
     
+3. Get Specific Driver by ID
+    ```bash
+    curl -X GET "http://127.0.0.1:8000/drivers/1" \ -H "accept: application/json"
+
+4. Update Driver Information
+    ```bash 
+    curl -X PUT "http://127.0.0.1:8000/drivers/1" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "name": "John Smith",
+        "license_number": "DL123456789",
+        "vehicle_type": "SUV",
+        "is_available": false
+    }'
 ---
 
 ## Data Management
@@ -139,6 +163,18 @@ taxi_driver_module/
 - Duplicate Prevention: License numbers must be unique
 
 ---
+
+## Available Vehicle Types
+
+The following vehicle types are supported:
+
+- Sedan
+- SUV
+- Van
+- Coupe
+- Convertible
+- Truck
+- Minivan
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
