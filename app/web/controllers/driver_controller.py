@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi import Query
 from typing import Optional
-
+from typing import List
 from app.service import driver_service
 from app.web.models.driver_schema import DriverCreate, DriverUpdate, DriverResponse, VehicleType
 
@@ -37,7 +37,7 @@ def get_driver(driver_id: int):
 
 
 
-@router.get("", response_model=list[DriverResponse])
+@router.get("", response_model=List[DriverResponse])
 def get_drivers(
     is_available: Optional[bool] = Query(None),
     vehicle_type: Optional[VehicleType] = Query(None),
