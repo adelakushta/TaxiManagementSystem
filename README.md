@@ -17,12 +17,13 @@ A FastAPI-based backend service for managing taxi drivers with full CRUD functio
 
 ## Project Structure
 ```bash
-taxi_driver_module/
+TaxiManagementSystem/
 ├── app/
 │   ├── persistance/
 │   │   ├── db/
 │   │   │   ├── __init__.py
 │   │   │   └── driver_data.py           # CSV data operations with Pandas
+│   │   │   └── drivers.csv              # CSV data storage file
 │   │   └── models/
 │   │       ├── __init__.py
 │   │       └── driver_model.py          # Data entity models
@@ -39,7 +40,7 @@ taxi_driver_module/
 │   │       ├── __init__.py
 │   │       └── driver_schema.py         # Pydantic request/response schemas
 ├── venv/                                # Virtual environment (not included in repo)
-├── drivers.csv                          # CSV data storage file
+├── LICENSE
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -82,8 +83,7 @@ taxi_driver_module/
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd taxi-management-system
+   git clone https://github.com/adelakushta/TaxiManagementSystem
 
 2. Create & activate a virtual environment (recommended)
     ```bash
@@ -152,15 +152,16 @@ taxi_driver_module/
         "vehicle_type": "SUV",
         "is_available": false
     }'
+    
 ---
 
 ## Data Management
 
-- Storage: CSV file (drivers.csv) with Pandas DataFrame operations
-- Auto-generated IDs: Sequential integer IDs starting from 1
-- Data Persistence: All operations automatically save to CSV
-- Data Validation: Pydantic models ensure data integrity
-- Duplicate Prevention: License numbers must be unique
+- Storage: Driver records stored in a CSV file, managed via Pandas DataFrames.
+- Auto-generated IDs: Sequential integer IDs starting from 1, incremented for each new driver.
+- Data Persistence: Reads always load from CSV; create, update, and delete operations save changes back to CSV.
+- Data Validation: Pydantic models enforce field types and integrity.
+- Duplicate Prevention: License numbers must be unique.
 
 ---
 
@@ -181,4 +182,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 Adela Kushta - adelakushta05@gmail.com
-Project Link: https://github.com/yourusername/taxi-management-system
+Project Link: https://github.com/adelakushta/TaxiManagementSystem
