@@ -93,6 +93,7 @@ TaxiManagementSystem/
 
 3. Install dependencies
     ```bash
+    cd TaxiManagementSystem
     pip install -r requirements.txt
 
 4. Run the FastAPI server
